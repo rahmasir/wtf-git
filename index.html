@@ -60,7 +60,7 @@
                         2. applying your changes and stage it by <code>git add .</code>, then use this command:<br>
                         <code>git commit --amend</code><br><br>
 
-                        <strogn>improtant note</strogn> - after that you should use these commands:<br>
+                        improtant note - after that you should use these commands:<br>
                         <code>
                             git push --force --all<br>
                             git push --force --tags
@@ -72,7 +72,7 @@
             <!-- FAQ Item 2 -->
             <div class="faq-item border-b border-gray-200">
                 <button class="faq-question w-full flex justify-between items-center text-left p-6 focus:outline-none focus:bg-gray-50">
-                    <span class="text-lg font-medium text-gray-800"></span>
+                    <span class="text-lg font-medium text-gray-800">what is different between git revert and git reset?</span>
                     <span class="icon-plus text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -81,7 +81,14 @@
                 </button>
                 <div class="answer-content">
                     <p class="text-gray-600 px-6 pb-6 pt-2">
-                        There are eight planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union (IAU) because it did not meet all three of the IAU's criteria for a full-sized planet, specifically that it has not "cleared its neighboring region of other objects."
+                        	revert: Creates a new commit that undoes a previous commit<br>
+                        	reset: Moves the branch pointer to a different commit, possibly changing files<br>
+                            for example:<br>
+                            A → B → C → D → E → F (HEAD is here)<br>
+                            after <code>git revert E</code>:<br>
+                            A → B → C → D → E → F → G (G = revert of E)<br>
+                            after <code>git reset --hard D</code>:<br>
+                            A → B → C → D (HEAD is here)
                     </p>
                 </div>
             </div>
@@ -89,7 +96,7 @@
             <!-- FAQ Item 3 -->
             <div class="faq-item">
                 <button class="faq-question w-full flex justify-between items-center text-left p-6 focus:outline-none focus:bg-gray-50">
-                    <span class="text-lg font-medium text-gray-800">Who wrote "To Kill a Mockingbird"?</span>
+                    <span class="text-lg font-medium text-gray-800">what is different between merge and rebase?</span>
                     <span class="icon-plus text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -98,7 +105,8 @@
                 </button>
                 <div class="answer-content">
                     <p class="text-gray-600 px-6 pb-6 pt-2">
-                        "To Kill a Mockingbird" was written by Harper Lee. The novel was published in 1960 and was an immediate success, winning the Pulitzer Prize for Fiction in 1961. It has become a classic of modern American literature, praised for its warmth and humor, despite dealing with serious issues of racial injustice and the destruction of innocence.
+                        git merge and git rebase both integrate changes from one branch into another, but they do it differently. git merge creates a new merge commit that joins two branches together, preserving the full history and showing when branches diverged and merged. This is useful for collaborative workflows because it clearly documents how and when changes were combined. However, it can make the commit history more complex and cluttered, especially with many branches.<br>
+                        In contrast, git rebase rewrites history by moving your commits to the tip of another branch, creating a cleaner, linear history as if all work was done sequentially. This makes it easier to follow the project’s progress but changes commit IDs and can cause problems if used on shared branches. Rebasing is often preferred for solo work or before merging a feature branch into the main branch to keep history tidy.
                     </p>
                 </div>
             </div>
