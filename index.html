@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated FAQ Section</title>
+    <title>WTF GIT</title>
+    <!-- Favicon: A simple question mark icon for the browser tab -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>?</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +16,14 @@
             font-family: 'Inter', sans-serif;
         }
         .answer-content {
-            /* Start with the answer hidden */
+            /* Start with the answer hidden and no height */
             max-height: 0;
             overflow: hidden;
             /* Define the transition for a smooth slide-down effect */
-            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            transition: max-height 0.5s ease-in-out;
         }
-        .answer-content.open {
-            /* Set a max-height large enough to show the content */
-            max-height: 200px; /* Adjust if your answers are longer */
-        }
+        /* No 'open' class needed here anymore, as height is set by JS */
+        
         .icon-plus {
              transition: transform 0.3s ease-in-out;
         }
@@ -32,19 +32,19 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen py-10">
 
     <!-- Main FAQ Container -->
     <div class="w-full max-w-2xl mx-auto p-4 md:p-8">
         <div class="bg-white rounded-2xl shadow-lg">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-800 text-center p-6 md:p-8 border-b border-gray-200">
-                Frequently Asked Questions
+                Common questions in git
             </h1>
             
             <!-- FAQ Item 1 -->
             <div class="faq-item border-b border-gray-200">
                 <button class="faq-question w-full flex justify-between items-center text-left p-6 focus:outline-none focus:bg-gray-50">
-                    <span class="text-lg font-medium text-gray-800">What is the capital of France?</span>
+                    <span class="text-lg font-medium text-gray-800">I added a file containing secret code to the repository in the last commit. How do I fix it?</span>
                     <span class="icon-plus text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -52,8 +52,19 @@
                     </span>
                 </button>
                 <div class="answer-content">
-                    <p class="text-gray-600 px-6 pb-6">
-                        The capital of France is Paris. It's renowned for its art, fashion, gastronomy, and culture.
+                    <p class="text-gray-600 px-6 pb-6 pt-2">
+                        There are two ways to solve this problem:<br>
+                        1. Delete the last commit using the following command:<br>
+                        <code>git reset HEAD^</code><br><br>
+
+                        2. applying your changes and stage it by <code>git add .</code>, then use this command:<br>
+                        <code>git commit --amend</code><br><br>
+
+                        <strogn>improtant note</strogn> - after that you should use these commands:<br>
+                        <code>
+                            git push --force --all<br>
+                            git push --force --tags
+                        </code>
                     </p>
                 </div>
             </div>
@@ -61,7 +72,7 @@
             <!-- FAQ Item 2 -->
             <div class="faq-item border-b border-gray-200">
                 <button class="faq-question w-full flex justify-between items-center text-left p-6 focus:outline-none focus:bg-gray-50">
-                    <span class="text-lg font-medium text-gray-800">How many planets are in our solar system?</span>
+                    <span class="text-lg font-medium text-gray-800"></span>
                     <span class="icon-plus text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -69,8 +80,8 @@
                     </span>
                 </button>
                 <div class="answer-content">
-                    <p class="text-gray-600 px-6 pb-6">
-                        There are eight planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006.
+                    <p class="text-gray-600 px-6 pb-6 pt-2">
+                        There are eight planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union (IAU) because it did not meet all three of the IAU's criteria for a full-sized planet, specifically that it has not "cleared its neighboring region of other objects."
                     </p>
                 </div>
             </div>
@@ -86,8 +97,8 @@
                     </span>
                 </button>
                 <div class="answer-content">
-                    <p class="text-gray-600 px-6 pb-6">
-                        "To Kill a Mockingbird" was written by Harper Lee. The novel was published in 1960 and was an immediate success, winning the Pulitzer Prize.
+                    <p class="text-gray-600 px-6 pb-6 pt-2">
+                        "To Kill a Mockingbird" was written by Harper Lee. The novel was published in 1960 and was an immediate success, winning the Pulitzer Prize for Fiction in 1961. It has become a classic of modern American literature, praised for its warmth and humor, despite dealing with serious issues of racial injustice and the destruction of innocence.
                     </p>
                 </div>
             </div>
@@ -102,44 +113,36 @@
         // Add a click event listener to each question button
         faqQuestions.forEach(button => {
             button.addEventListener('click', () => {
-                // Find the answer content related to the clicked question
+                // Find the answer content and icon related to the clicked question
                 const answerContent = button.nextElementSibling;
-                
-                // Find the icon to rotate
                 const icon = button.querySelector('.icon-plus');
 
-                // Toggle the 'open' class to show/hide the answer
-                answerContent.classList.toggle('open');
-                
-                // Toggle the 'rotated' class to animate the icon
+                // Toggle the icon's rotation
                 icon.classList.toggle('rotated');
-                
-                // Add padding to the answer when it's open for better spacing
-                if (answerContent.classList.contains('open')) {
-                    // This padding is applied via transition for a smooth effect
-                    answerContent.style.paddingTop = '0';
-                    answerContent.style.paddingBottom = '1.5rem'; // Corresponds to pb-6
-                } else {
-                    // Remove padding when closing
-                    answerContent.style.paddingTop = '0';
-                    answerContent.style.paddingBottom = '0';
-                }
 
-                // Optional: Close other open answers for an accordion effect
-                faqQuestions.forEach(otherButton => {
-                    // Check if the other button is not the one we just clicked
-                    if (otherButton !== button) {
-                        const otherAnswer = otherButton.nextElementSibling;
-                        const otherIcon = otherButton.querySelector('.icon-plus');
-                        
-                        // If another answer is open, close it
-                        if (otherAnswer.classList.contains('open')) {
-                            otherAnswer.classList.remove('open');
-                            otherIcon.classList.remove('rotated');
-                            otherAnswer.style.paddingBottom = '0';
-                        }
+                // Check if the answer is already open by checking its max-height
+                const isOpen = answerContent.style.maxHeight;
+
+                // --- Close all other open answers for an accordion effect ---
+                document.querySelectorAll('.answer-content').forEach(otherAnswer => {
+                    // Check if it's not the current answer we are toggling
+                    if (otherAnswer !== answerContent) {
+                        otherAnswer.style.maxHeight = null; // Close it
+                        // Also reset the icon of the other answer
+                        const otherButton = otherAnswer.previousElementSibling;
+                        otherButton.querySelector('.icon-plus').classList.remove('rotated');
                     }
                 });
+                
+                // --- Open or close the clicked answer ---
+                if (isOpen) {
+                    // If it's open, close it by setting max-height to null (or '0px')
+                    answerContent.style.maxHeight = null;
+                } else {
+                    // If it's closed, open it by setting max-height to its scroll height
+                    // scrollHeight is the actual height of the content
+                    answerContent.style.maxHeight = answerContent.scrollHeight + 'px';
+                }
             });
         });
     </script>
